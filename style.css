@@ -1,0 +1,18 @@
+/* styles.css */ body { margin: 0; font-family: Arial, sans-serif; }
+
+header { display: flex; justify-content: space-between; padding: 15px; background: #0f62fe; color: white; }
+
+nav a { color: white; margin: 0 10px; text-decoration: none; }
+
+.hero { text-align: center; padding: 50px; background: #f4f4f4; }
+
+.hero button { padding: 10px 20px; background: #0f62fe; color: white; border: none; cursor: pointer; }
+
+.features { display: flex; justify-content: space-around; padding: 20px; }
+
+.card { background: #e0e0e0; padding: 20px; border-radius: 10px; }
+.checker { text-align: center; padding: 30px; }
+
+.hidden { display: none; }
+
+footer { text-align: center; padding: 10px; background: #0f62fe; color: white; }
