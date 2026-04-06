@@ -1,6 +1,19 @@
-node_modules/
-.env
+#OS Files
 .DS_Store
 Thumbs.db
+desktop.ini
+
+#VS Code
 .vscode/
+
+#Logs
 *.log
+npm-debug.log*
+
+#Environment
+.env
+.env.local
+
+#Node 
+node_modules/
+package-lock.json

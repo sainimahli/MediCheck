@@ -1,40 +1,416 @@
-<!-- index.html -->
- <!DOCTYPE html>
- <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MediCheck</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MediCheck — AI Health Symptom Tracker</title>
+  <meta name="description" content="Free AI-powered symptom checker with instant health assessment and personalized recommendations." />
+  <meta name="keywords" content="health, symptoms, AI, medical, checker, free" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <h1>MediCheck</h1>
-    <nav>
-      <a href="#">Home</a>
-      <a href="#features">Features</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </header>
-    <section class="hero">
-    <h2>Your Health, Our Priority</h2>
-    <p>Check symptoms, track health, and stay safe.</p>
-    <button onclick="startCheck()">Start Check</button>
-  </section>
-    <section id="features" class="features">
-    <div class="card">Symptom Checker</div>
-    <div class="card">Health Tips</div>
-    <div class="card">Doctor Suggestions</div>
-  </section>
-    <section id="checker" class="checker hidden">
-    <h2>Symptom Checker</h2>
-    <input type="text" id="symptom" placeholder="Enter your symptom">
-    <button onclick="analyzeSymptom()">Analyze</button>
-    <p id="result"></p>
-  </section>  
-  <footer id="contact">
-    <p>© 2026 MediCheck | Built by You</p>
+
+<!-- ══════════════════════════════════════
+     HEADER / NAV
+══════════════════════════════════════ -->
+<header>
+  <a href="#" class="logo">Medi<span>Check</span></a>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="#checker">Check Symptoms</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#tips">Health Tips</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+  <div class="header-right">
+    <div class="badge pulse">🩺 Live AI</div>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">☰</button>
+  </div>
+</header>
+
+<!-- Mobile Nav -->
+<div class="mobile-nav" id="mobileNav">
+  <a href="#checker" onclick="toggleMenu()">Check Symptoms</a>
+  <a href="#about" onclick="toggleMenu()">About</a>
+  <a href="#tips" onclick="toggleMenu()">Health Tips</a>
+  <a href="#contact" onclick="toggleMenu()">Contact</a>
+</div>
+
+<!-- ══════════════════════════════════════
+     HERO SECTION
+══════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-tag">🏥 Healthcare Hackathon 2026</div>
+  <h1>Your Health,<br><em>Checked Instantly</em></h1>
+  <p>MediCheck uses AI-powered symptom analysis to help you understand your health — fast, free, and private. No appointment needed.</p>
+  <div class="hero-cta">
+    <a href="#checker" class="btn btn-primary">Start Health Check →</a>
+    <a href="#about" class="btn btn-outline">Learn More</a>
+  </div>
+</section>
+
+<!-- Stats Bar -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <span class="stat-value" data-count="18" data-suffix="+">0+</span>
+    <span class="stat-label">Symptoms</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-value" data-count="11" data-suffix="+">0+</span>
+    <span class="stat-label">Conditions</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-value" data-count="3">0</span>
+    <span class="stat-label">Easy Steps</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-value" data-count="2" data-suffix=" Min">0 Min</span>
+    <span class="stat-label">To Results</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-value" data-count="100" data-suffix="% Free">0% Free</span>
+    <span class="stat-label">Always</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     MAIN APP — SYMPTOM CHECKER
+══════════════════════════════════════ -->
+<div class="container" id="checker">
+
+  <!-- Step Progress Bar -->
+  <div class="progress-wrap">
+    <div class="progress-steps">
+      <div class="p-step active" id="pstep1">
+        <div class="p-circle">1</div>
+        <span>Profile</span>
+      </div>
+      <div class="p-line" id="pline1"></div>
+      <div class="p-step" id="pstep2">
+        <div class="p-circle">2</div>
+        <span>Symptoms</span>
+      </div>
+      <div class="p-line" id="pline2"></div>
+      <div class="p-step" id="pstep3">
+        <div class="p-circle">3</div>
+        <span>Results</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SCREEN 1: Profile ── -->
+  <div class="screen active" id="screen1">
+    <div class="card">
+      <div class="card-icon">👤</div>
+      <h2>Your Profile</h2>
+      <p class="subtitle">Help us personalize your health assessment</p>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="name">Full Name *</label>
+          <input type="text" id="name" placeholder="e.g. Saini Mahli" autocomplete="off" />
+        </div>
+        <div class="form-group">
+          <label for="age">Age *</label>
+          <input type="number" id="age" placeholder="e.g. 22" min="1" max="120" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="gender">Gender</label>
+          <select id="gender">
+            <option value="">Select gender</option>
+            <option value="Female">Female</option>
+            <option value="Male">Male</option>
+            <option value="Other">Other / Prefer not to say</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="blood">Blood Group</label>
+          <select id="blood">
+            <option value="">Select (optional)</option>
+            <option>A+</option><option>A-</option>
+            <option>B+</option><option>B-</option>
+            <option>O+</option><option>O-</option>
+            <option>AB+</option><option>AB-</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="conditions">Pre-existing Conditions</label>
+          <select id="conditions">
+            <option value="">None / Not sure</option>
+            <option>Diabetes</option>
+            <option>Hypertension</option>
+            <option>Asthma</option>
+            <option>Heart Disease</option>
+            <option>Thyroid</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="allergies">Known Allergies</label>
+          <input type="text" id="allergies" placeholder="e.g. Penicillin, Dust" />
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="nextStep()">Continue →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SCREEN 2: Symptoms ── -->
+  <div class="screen" id="screen2">
+    <div class="card">
+      <div class="card-icon">🤒</div>
+      <h2>Your Symptoms</h2>
+      <p class="subtitle">Select everything you are currently experiencing</p>
+
+      <!-- Symptom Count -->
+      <div class="symptom-header">
+        <span class="section-label">Tap to select symptoms</span>
+        <span id="symptomCount" class="count-badge">0 selected</span>
+      </div>
+
+      <div class="symptom-grid" id="symptomGrid">
+        <div class="symptom-chip" onclick="toggleSymptom(this)" data-symptom="Fever">🌡️ Fever</div>
+        <div class="symptom-chip" onclick="toggleSymptom(this)" data-symptom="Runny Nose">🤧 Runny Nose</div>
+        <div class="symptom-chip" onclick="toggleSymptom(this)" data-symptom="Shortness of Breath">😮‍💨 Shortness of Breath</div>
+        <div class="symptom-chip" onclick="toggleSymptom(this)" data-symptom="Headache">🤕 Headache</div>
+        <div class="symptom-chip" onclick="toggleSymptom(this)" data-symptom="Body Ache">💪 Body Ache</div>
+        <div class="symptom-chip" onclick="toggleSymptom(this)" data-symptom="Fatigue">😴 Fatigue</div>
+        <div class="symptom-chip" onclick="toggleSymptom(this)" data-symptom="Nausea">🤢 Nausea</div>
+        <div class="symptom-chip" onclick="toggleSymptom(this)" data-symptom="Vomiting">🤮 Vomiting</div>
+        <div class="symptom-chip" onclick="toggleSymptom(this)" data-symptom="Chest Pain">🫁 Chest Pain</div>
+        <div class="symptom-chip" onclick="toggleSymptom(this)" data-symptom="Cough">😮 Cough</div>
+        <div class="symptom-chip" onclick="toggleSymptom(this)" data-symptom="Sore Throat">🦷 Sore Throat</div>
+        <div class="symptom-chip" onclick="toggleSymptom(this)" data-symptom="Eye Irritation">👁️ Eye Irritation</div>
+        <div class="symptom-chip" onclick="toggleSymptom(this)" data-symptom="Joint Pain">🦵 Joint Pain</div>
+        <div class="symptom-chip" onclick="toggleSymptom(this)" data-symptom="Loss of Appetite">🍽️ Loss of Appetite</div>
+        <div class="symptom-chip" onclick="toggleSymptom(this)" data-symptom="Dizziness">🌀 Dizziness</div>
+        <div class="symptom-chip" onclick="toggleSymptom(this)" data-symptom="Chills">❄️ Chills</div>
+        <div class="symptom-chip" onclick="toggleSymptom(this)" data-symptom="Diarrhea">💧 Diarrhea</div>
+        <div class="symptom-chip" onclick="toggleSymptom(this)" data-symptom="Skin Rash">🐾 Skin Rash</div>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- Severity Slider -->
+      <div class="severity-wrap">
+        <div class="section-label-row">
+          <span class="section-label">Overall Pain / Severity</span>
+          <span id="severityVal" class="severity-num">5 / 10</span>
+        </div>
+        <div class="severity-labels">
+          <span>😊 Mild</span><span>😐 Moderate</span><span>😣 Severe</span>
+        </div>
+        <input type="range" id="severity" min="1" max="10" value="5" />
+      </div>
+
+      <hr class="divider" />
+
+      <!-- Duration -->
+      <span class="section-label">How long have you had these symptoms?</span>
+      <div class="duration-btns">
+        <button class="dur-btn" onclick="selectDuration(this)">Today</button>
+        <button class="dur-btn" onclick="selectDuration(this)">2–3 Days</button>
+        <button class="dur-btn" onclick="selectDuration(this)">1 Week</button>
+        <button class="dur-btn" onclick="selectDuration(this)">2+ Weeks</button>
+        <button class="dur-btn" onclick="selectDuration(this)">1+ Month</button>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-outline" onclick="goTo(1)">← Back</button>
+        <button class="btn btn-primary" onclick="analyze()">Analyze Symptoms →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SCREEN 3: Results ── -->
+  <div class="screen" id="screen3">
+    <div class="card" id="resultCard">
+      <!-- Rendered by script.js -->
+    </div>
+    <div class="btn-row" style="justify-content:center; margin-top:20px;">
+      <button class="btn btn-outline" onclick="goTo(1); resetAll()">🔄 New Check</button>
+      <button class="btn btn-primary" onclick="window.print()">🖨️ Print Report</button>
+    </div>
+    <p class="disclaimer">
+      ⚠️ <strong>Disclaimer:</strong> MediCheck is for informational purposes only. It is not a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider. In an emergency call <strong>112</strong>.
+    </p>
+  </div>
+
+</div><!-- end .container -->
+
+<!-- ══════════════════════════════════════
+     ABOUT SECTION
+══════════════════════════════════════ -->
+<section class="section" id="about">
+  <div class="container">
+    <div class="section-header">
+      <h2>Why MediCheck?</h2>
+      <p>Built for the 600 million people in India who lack quick access to healthcare guidance.</p>
+    </div>
+    <div class="info-grid">
+      <div class="info-card">
+        <span class="info-icon">🧠</span>
+        <h3>AI-Powered Analysis</h3>
+        <p>Our rule-based AI engine maps symptoms to conditions using medically-informed decision logic built by healthcare professionals.</p>
+      </div>
+      <div class="info-card">
+        <span class="info-icon">⚡</span>
+        <h3>Instant Results</h3>
+        <p>Get a detailed health report in under 2 minutes — no waiting rooms, no appointments, no queues.</p>
+      </div>
+      <div class="info-card">
+        <span class="info-icon">🔒</span>
+        <h3>100% Private</h3>
+        <p>All processing happens in your browser. We never store, sell, or share your personal health data.</p>
+      </div>
+      <div class="info-card">
+        <span class="info-icon">🌍</span>
+        <h3>Accessible to All</h3>
+        <p>Works on any device, any browser, even on 2G connections. Completely free, forever.</p>
+      </div>
+      <div class="info-card">
+        <span class="info-icon">🚨</span>
+        <h3>Emergency Alerts</h3>
+        <p>Automatically detects high-risk symptoms and provides emergency guidance and helpline numbers.</p>
+      </div>
+      <div class="info-card">
+        <span class="info-icon">📋</span>
+        <h3>Printable Reports</h3>
+        <p>Save or print your health report to share with your doctor for a more informed consultation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     HEALTH TIPS SECTION
+══════════════════════════════════════ -->
+<section class="section section-alt" id="tips">
+  <div class="container">
+    <div class="section-header">
+      <h2>Daily Health Tips</h2>
+      <p>Small habits that make a massive difference to your long-term health.</p>
+    </div>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <div class="tip-num">01</div>
+        <span class="tip-icon">💧</span>
+        <h3>Stay Hydrated</h3>
+        <p>Drink 8–10 glasses of water daily. Dehydration causes fatigue, headaches, and poor concentration.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-num">02</div>
+        <span class="tip-icon">🛌</span>
+        <h3>Prioritize Sleep</h3>
+        <p>7–9 hours of sleep per night strengthens immunity, improves mood, and enhances memory.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-num">03</div>
+        <span class="tip-icon">🥗</span>
+        <h3>Balanced Diet</h3>
+        <p>Eat a rainbow — fruits, vegetables, whole grains, lean proteins, and healthy fats every day.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-num">04</div>
+        <span class="tip-icon">🚶</span>
+        <h3>Daily Movement</h3>
+        <p>Just 30 minutes of walking daily reduces risk of heart disease, diabetes, and depression by 30%.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-num">05</div>
+        <span class="tip-icon">🧼</span>
+        <h3>Hand Hygiene</h3>
+        <p>Wash hands for 20 seconds before meals. This single habit prevents 80% of common infections.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-num">06</div>
+        <span class="tip-icon">🧘</span>
+        <h3>Mental Health</h3>
+        <p>Practice deep breathing, journaling, or meditation. Stress management is as important as physical health.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     CONTACT SECTION
+══════════════════════════════════════ -->
+<section class="section" id="contact">
+  <div class="container">
+    <div class="section-header">
+      <h2>Emergency Helplines</h2>
+      <p>Important numbers to keep saved on your phone.</p>
+    </div>
+    <div class="helpline-grid">
+      <div class="helpline-card red">
+        <span class="h-icon">🚑</span>
+        <div>
+          <h3>Emergency Ambulance</h3>
+          <a href="tel:108" class="h-number">108</a>
+        </div>
+      </div>
+      <div class="helpline-card red">
+        <span class="h-icon">🆘</span>
+        <div>
+          <h3>National Emergency</h3>
+          <a href="tel:112" class="h-number">112</a>
+        </div>
+      </div>
+      <div class="helpline-card blue">
+        <span class="h-icon">🏥</span>
+        <div>
+          <h3>Health Helpline</h3>
+          <a href="tel:1800-180-1104" class="h-number">1800-180-1104</a>
+        </div>
+      </div>
+      <div class="helpline-card blue">
+        <span class="h-icon">🧠</span>
+        <div>
+          <h3>Mental Health (iCall)</h3>
+          <a href="tel:9152987821" class="h-number">9152987821</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     FOOTER
+══════════════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="logo">Medi<span>Check</span></span>
+      <p>Free AI-powered health symptom tracker.<br>Built for Healthcare Hackathon 2026.</p>
+    </div>
+    <div class="footer-links">
+      <h4>Quick Links</h4>
+      <a href="#checker">Symptom Check</a>
+      <a href="#about">About</a>
+      <a href="#tips">Health Tips</a>
+      <a href="#contact">Helplines</a>
+    </div>
+    <div class="footer-links">
+      <h4>Emergency</h4>
+      <a href="tel:108">Ambulance: 108</a>
+      <a href="tel:112">Emergency: 112</a>
+      <a href="tel:1800-180-1104">Health: 1800-180-1104</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 MediCheck · Built with ❤️ for better healthcare access · Not a medical device</p>
+  </div>
 </footer>
-  <script src="script.js"></script>
+
+<script src="script.js"></script>
 </body>
 </html>
