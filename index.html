@@ -1,9 +1,11 @@
-<!-- index.html --><!DOCTYPE html><html lang="en">
+<!-- index.html -->
+ <!DOCTYPE html>
+ <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MediCheck</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
@@ -13,20 +15,26 @@
       <a href="#features">Features</a>
       <a href="#contact">Contact</a>
     </nav>
-  </header>  <section class="hero">
+  </header>
+    <section class="hero">
     <h2>Your Health, Our Priority</h2>
     <p>Check symptoms, track health, and stay safe.</p>
     <button onclick="startCheck()">Start Check</button>
-  </section>  <section id="features" class="features">
+  </section>
+    <section id="features" class="features">
     <div class="card">Symptom Checker</div>
     <div class="card">Health Tips</div>
     <div class="card">Doctor Suggestions</div>
-  </section>  <section id="checker" class="checker hidden">
+  </section>
+    <section id="checker" class="checker hidden">
     <h2>Symptom Checker</h2>
     <input type="text" id="symptom" placeholder="Enter your symptom">
     <button onclick="analyzeSymptom()">Analyze</button>
     <p id="result"></p>
-  </section>  <footer id="contact">
+  </section>  
+  <footer id="contact">
     <p>© 2026 MediCheck | Built by You</p>
-  </footer>  <script src="script.js"></script></body>
+</footer>
+  <script src="script.js"></script>
+</body>
 </html>
